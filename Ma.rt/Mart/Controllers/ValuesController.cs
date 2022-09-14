@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using EF.mart;
 
 namespace Mart.Controllers
 {
@@ -11,20 +12,53 @@ namespace Mart.Controllers
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public IEnumerable<Category> Get()
         {
-            return new string[] { "value1", "value2" };
+            using (cartDBEntitiesConn ctDB = new cartDBEntitiesConn())
+            {
+                // List<Categories> categories = ctDB.Categories.ToList();
+                return ctDB.Categories.ToList();
+            }
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            using (cartDBEntitiesConn ctDB = new cartDBEntitiesConn())
+            {
+                // List<Categories> categories = ctDB.Categories.ToList();
+                var entity = ctDB.Categories.FirstOrDefault(c => c.CategoryID==id);
+
+                if(entity!=null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, entity);
+                }
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Category with id : "+id.ToString()+" not fount");
+            }
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post([FromBody] Category category)
         {
+            try
+            {
+                using (cartDBEntitiesConn ctDB = new cartDBEntitiesConn())
+                {
+                    // List<Categories> categories = ctDB.Categories.ToList();
+                    ctDB.Categories.Add(category);
+                    ctDB.SaveChanges();
+
+                    var message = Request.CreateResponse(HttpStatusCode.Created, category);
+
+                    message.Headers.Location = new Uri(Request.RequestUri + category.CategoryID.ToString());
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
         }
 
         // PUT api/values/5

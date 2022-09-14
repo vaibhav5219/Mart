@@ -10,3 +10,15 @@ C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.cspr
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CopyComplete
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll.config
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.pdb
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.dll
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.dll
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.xml
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.xml
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.AssemblyReference.cache
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CoreCompileInputs.cache
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CopyComplete
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
+D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb
