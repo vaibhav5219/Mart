@@ -1,15 +1,3 @@
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll.config
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.pdb
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.dll
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.xml
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.AssemblyReference.cache
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CoreCompileInputs.cache
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CopyComplete
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll.config
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.pdb
@@ -22,3 +10,14 @@ D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.Core
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CopyComplete
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
 D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll.config
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EF.mart.pdb
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.xml
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CoreCompileInputs.cache
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.csproj.CopyComplete
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb

@@ -8,7 +8,7 @@ using EF.mart;
 
 namespace Mart.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -16,8 +16,17 @@ namespace Mart.Controllers
         {
             using (cartDBEntitiesConn ctDB = new cartDBEntitiesConn())
             {
-                // List<Categories> categories = ctDB.Categories.ToList();
-                return ctDB.Categories.ToList();
+                try
+                {
+                    //ctDB.Configuration.ProxyCreationEnabled = false;
+                    // List<Categories> categories = ctDB.Categories.ToList();
+                    List<Category> categories = ctDB.Categories.ToList();
+                    return categories;
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
             //return new string[] { "value1", "value2" };
         }
