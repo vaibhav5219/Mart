@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "673c65ee-e367-422f-8191-062fc3ac438f": {
+      "ProjectGuid": "673c65ee-e367-422f-8191-062fc3ac438f",
+      "DisplayName": "Mart",
+      "ColorIndex": 0
+    },
+    "76ea22ee-93b5-4f9f-b564-bd3c34f66fb6": {
+      "ProjectGuid": "76ea22ee-93b5-4f9f-b564-bd3c34f66fb6",
+      "DisplayName": "EF.mart",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\MtModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\GitHub Repositry\New folder\ma.rt\Ma.rt\EF.mart\MtModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
