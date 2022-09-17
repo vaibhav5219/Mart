@@ -14,13 +14,13 @@ namespace Mart.Controllers
         // GET api/values
         public IEnumerable<Category> Get()
         {
-            using (cartDBEntitiesConn ctDB = new cartDBEntitiesConn())
+            using (cartDBEntitiesConn enteties = new cartDBEntitiesConn())
             {
                 try
                 {
-                    ctDB.Configuration.ProxyCreationEnabled = false;
+                    enteties.Configuration.ProxyCreationEnabled = false;
                     // List<Categories> categories = ctDB.Categories.ToList();
-                    List<Category> categories = ctDB.Categories.ToList();
+                    List<Category> categories = enteties.Categories.ToList();
                     return categories;
                 }
                 catch(Exception ex)

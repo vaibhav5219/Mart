@@ -11,6 +11,14 @@
         <EntityTypeShape EntityType="cartDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="cartDBModel.FK_dbo_CartItems_dbo_Products_ProductId" ManuallyRouted="false" />
         <AssociationConnector Association="cartDBModel.FK_dbo_Products_dbo_Categories_CategoryID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="cartDBModel.C__MigrationHistory" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetRole" Width="1.5" PointX="3.375" PointY="6.625" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUserClaim" Width="1.5" PointX="7.875" PointY="5.125" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUserLogin" Width="1.5" PointX="7.875" PointY="8" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUser" Width="1.5" PointX="5.625" PointY="5.375" />
+        <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="cartDBModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
