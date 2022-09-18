@@ -84,6 +84,17 @@
           <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+          </Key>
+          <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_Date" Type="datetime" Nullable="false" />
+          <Property Name="Order_Total" Type="int" Nullable="false" />
+          <Property Name="Order_Status" Type="int" Nullable="false" />
+          <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Delivered_Date" Type="date" />
+        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -94,6 +105,21 @@
           <Property Name="ImagePath" Type="nvarchar(max)" />
           <Property Name="UnitPrice" Type="float" />
           <Property Name="CategoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="ShopDetails">
+          <Key>
+            <PropertyRef Name="Shop_Id" />
+          </Key>
+          <Property Name="Shop_Id" Type="int" Nullable="false" />
+          <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShopName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ShopKeeperName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mobile" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Shop_Domain_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pin_Code" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -187,6 +213,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ShopDetails_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ShopDetails" Type="Self.ShopDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ShopDetails">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -227,7 +265,9 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShopDetails" EntityType="Self.ShopDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -252,6 +292,10 @@
           <AssociationSet Name="FK_dbo_Products_dbo_Categories_CategoryID" Association="Self.FK_dbo_Products_dbo_Categories_CategoryID">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShopDetails_Products" Association="Self.FK_ShopDetails_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ShopDetails" EntitySet="ShopDetails" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -290,6 +334,7 @@
           <Property Name="CategoryID" Type="Int32" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK_dbo_CartItems_dbo_Products_ProductId" FromRole="Products" ToRole="CartItems" />
           <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Products_dbo_Categories_CategoryID" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="ShopDetails" Relationship="cartDBModel.FK_ShopDetails_Products" FromRole="Product" ToRole="ShopDetail" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -386,6 +431,12 @@
           <AssociationSet Name="AspNetUserRoles" Association="cartDBModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
+          <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
+          <AssociationSet Name="FK_ShopDetails_Products" Association="cartDBModel.FK_ShopDetails_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ShopDetail" EntitySet="ShopDetails" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -489,6 +540,45 @@
         <Association Name="AspNetUserRoles">
           <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+          </Key>
+          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Order_Total" Type="Int32" Nullable="false" />
+          <Property Name="Order_Status" Type="Int32" Nullable="false" />
+          <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="ShopDetail">
+          <Key>
+            <PropertyRef Name="Shop_Id" />
+          </Key>
+          <Property Name="Shop_Id" Type="Int32" Nullable="false" />
+          <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShopName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShopKeeperName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Shop_Domain_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pin_Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="cartDBModel.FK_ShopDetails_Products" FromRole="ShopDetail" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_ShopDetails_Products">
+          <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="cartDBModel.ShopDetail" Role="ShopDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ShopDetail">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -626,6 +716,34 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="cartDBModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Order_Status" ColumnName="Order_Status" />
+                <ScalarProperty Name="Order_Total" ColumnName="Order_Total" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShopDetails">
+            <EntityTypeMapping TypeName="cartDBModel.ShopDetail">
+              <MappingFragment StoreEntitySet="ShopDetails">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
+                <ScalarProperty Name="Pin_Code" ColumnName="Pin_Code" />
+                <ScalarProperty Name="Shop_Domain_Name" ColumnName="Shop_Domain_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="ShopKeeperName" ColumnName="ShopKeeperName" />
+                <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+                <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
+                <ScalarProperty Name="Shop_Id" ColumnName="Shop_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
