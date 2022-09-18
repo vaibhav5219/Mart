@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mart", "Mart\Mart.csproj", "{673C65EE-E367-422F-8191-062FC3AC438F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mart.WebApi", "Mart\Mart.WebApi.csproj", "{673C65EE-E367-422F-8191-062FC3AC438F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mart.Tests", "Mart.Tests\Mart.Tests.csproj", "{E0CAD1B8-DE03-4CE5-A3BF-B2A5FC087CEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF.mart", "EF.mart\EF.mart.csproj", "{76EA22EE-93B5-4F9F-B564-BD3C34F66FB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mart.EntityFramework", "EF.mart\Mart.EntityFramework.csproj", "{76EA22EE-93B5-4F9F-B564-BD3C34F66FB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

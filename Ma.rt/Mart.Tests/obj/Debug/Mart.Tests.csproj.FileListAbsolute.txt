@@ -1,0 +1,2 @@
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\Mart.Tests\obj\Debug\Mart.Tests.csproj.AssemblyReference.cache
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\Mart.Tests\obj\Debug\Mart.Tests.csproj.CoreCompileInputs.cache

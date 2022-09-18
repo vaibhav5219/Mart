@@ -310,9 +310,9 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EF.mart\EF.mart.csproj">
+    <ProjectReference Include="..\EF.mart\Mart.EntityFramework.csproj">
       <Project>{76ea22ee-93b5-4f9f-b564-bd3c34f66fb6}</Project>
-      <Name>EF.mart</Name>
+      <Name>Mart.EntityFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

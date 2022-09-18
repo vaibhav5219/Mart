@@ -50,10 +50,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CartItem.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Category.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MtModel.Context.cs">
