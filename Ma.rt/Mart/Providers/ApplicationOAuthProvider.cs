@@ -30,7 +30,8 @@ namespace Mart.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
+            
+            // Authenticate user and password
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
@@ -46,7 +47,7 @@ namespace Mart.Providers
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-            context.Validated(ticket);
+            context.Validated(ticket);      // Generates access token
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 

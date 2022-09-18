@@ -8,7 +8,7 @@ using EF.mart;
 
 namespace Mart.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values

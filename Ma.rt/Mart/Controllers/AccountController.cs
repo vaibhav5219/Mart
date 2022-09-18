@@ -327,9 +327,11 @@ namespace Mart.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
+            //  creating ApplicationUser object
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
+            //  creating ApplicationUser Instance and adding to database ie. creating registration
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)

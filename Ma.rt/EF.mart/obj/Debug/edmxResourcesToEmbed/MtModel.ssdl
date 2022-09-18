@@ -79,6 +79,17 @@
     <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order_Date" Type="datetime" Nullable="false" />
+    <Property Name="Order_Total" Type="int" Nullable="false" />
+    <Property Name="Order_Status" Type="int" Nullable="false" />
+    <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Delivered_Date" Type="date" />
+  </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -89,6 +100,21 @@
     <Property Name="ImagePath" Type="nvarchar(max)" />
     <Property Name="UnitPrice" Type="float" />
     <Property Name="CategoryID" Type="int" />
+  </EntityType>
+  <EntityType Name="ShopDetails">
+    <Key>
+      <PropertyRef Name="Shop_Id" />
+    </Key>
+    <Property Name="Shop_Id" Type="int" Nullable="false" />
+    <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ShopName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ShopKeeperName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mobile" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Shop_Domain_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pin_Code" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Product_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -182,6 +208,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ShopDetails_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="ShopDetails" Type="Self.ShopDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ShopDetails">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -222,7 +260,9 @@
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShopDetails" EntityType="Self.ShopDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -247,6 +287,10 @@
     <AssociationSet Name="FK_dbo_Products_dbo_Categories_CategoryID" Association="Self.FK_dbo_Products_dbo_Categories_CategoryID">
       <End Role="Categories" EntitySet="Categories" />
       <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShopDetails_Products" Association="Self.FK_ShopDetails_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ShopDetails" EntitySet="ShopDetails" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
