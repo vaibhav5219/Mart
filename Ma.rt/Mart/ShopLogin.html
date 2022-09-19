@@ -2,9 +2,100 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <title>Login</title>
 </head>
-<body>
+<body style="padding-top:20px;">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <td colspan="2">
+                            Login Page
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Username</td>
+                        <td>
+                            <input type="text" id="textEmail" placeholder="Email" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input type="password" id="textPassword" placeholder="Password" />
+                        </td>
+                    </tr>
+                    <tr class="success">
+                        <td colspan="2">
+                            <button id="btnLogin" class="btn btn-success" Value="Register">Login</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="divError" class="alert alert-danger collapse">
+                <a id="linkClose" class="close" href="#">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+            <div class="">
+                <button id="loadCategoriesbtn" class="btn btn-success" >Load Categories</button>
+                <div class="well" id="loadCategories"></div>
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#linkClose').click(function () {
+                $('#divError').hide("fade");
+            });
+            $('#btnLogin').click(function () {
+                //console.log($("#textEmail").val(), $("#textPassword").val(), $("#textConfirmPassword").val());
 
+                $.ajax({
+                    url: '/token',
+                    method: 'Post',
+                    contentType: 'application/json',
+                    data: {
+                        username: $('#textEmail').val(),
+                        password: $('#textPassword').val(),
+                        grant_type : 'password'
+                    },
+                    success: function (response) {
+                        sessionStorage.setItem('accessToken', JSON.stringify(response.access_token));
+                        $('#divErrorText').text(JSON.stringify(response));
+                        $('#divError').show("fade");
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        //alert("Error occured");
+                        $('#divError').show("fade");
+                    }
+                });
+            });
+            $('#loadCategoriesbtn').click(function () {
+                $.ajax({
+                    url: '/api/values',
+                    method: 'Get',
+                    headers: {
+                        'Authorization': 'Bearer '+ sessionStorage.getItem('accessToken')
+                    },
+                    success: function (response) {
+                        $('#loadCategories').text(response);
+                        $('#loadCategories').show("fade");
+                    },
+                    error: function (jqXHR) {
+                        $('#loadCategories').text(jqXHR.responseText);
+                        //alert("Error occured");
+                        $('#loadCategories').show("fade");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

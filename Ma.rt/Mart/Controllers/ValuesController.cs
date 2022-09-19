@@ -19,7 +19,6 @@ namespace Mart.Controllers
                 try
                 {
                     enteties.Configuration.ProxyCreationEnabled = false;
-                    // List<Categories> categories = ctDB.Categories.ToList();
                     List<Category> categories = enteties.Categories.ToList();
                     return categories;
                 }
