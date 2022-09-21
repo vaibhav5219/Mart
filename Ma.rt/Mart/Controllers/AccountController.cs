@@ -318,7 +318,7 @@ namespace Mart.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
+        // POST api/Account/Register  => for role -:   IsACustomer
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
@@ -339,9 +339,49 @@ namespace Mart.Controllers
                 return GetErrorResult(result);
             }
 
+
+            //Temp code => For Admin(Manager movies)  // for assiging role  **Important**
+            //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+            //var roleManager = new RoleManager<IdentityRole>(roleStore);
+            //await roleManager.CreateAsync(new IdentityRole("IsACustomer"));   //  create a role in db for IsACustomer
+            //await roleManager.CreateAsync(new IdentityRole("IsAShop"));       //  create a role in db for IsAShop
+            
+            await UserManager.AddToRoleAsync(user.Id, "IsACustomer");     //  Assign role to the user as IsACustomer
+
             return Ok();
         }
+        // POST api/Account/Register  => for role -:   IsAShop
+        [AllowAnonymous]
+        [Route("Register/Shop")]
+        public async Task<IHttpActionResult> RegisterShop(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            //  creating ApplicationUser object
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+
+            //  creating ApplicationUser Instance and adding to database ie. creating registration
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+
+            //Temp code => For Admin(Manager movies)  // for assiging role  **Important**
+            //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+            //var roleManager = new RoleManager<IdentityRole>(roleStore);
+            //await roleManager.CreateAsync(new IdentityRole("IsACustomer"));   //  create a role in db for IsACustomer
+            //await roleManager.CreateAsync(new IdentityRole("IsAShop"));       //  create a role in db for IsAShop
+
+            await UserManager.AddToRoleAsync(user.Id, "IsAShop");     //  Assign role to the user as IsACustomer
+
+            return Ok();
+        }
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
