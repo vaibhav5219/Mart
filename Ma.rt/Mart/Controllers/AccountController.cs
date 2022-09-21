@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using Mart.Models;
 using Mart.Providers;
 using Mart.Results;
+using EF.mart;
 
 namespace Mart.Controllers
 {
@@ -353,24 +354,50 @@ namespace Mart.Controllers
         // POST api/Account/Register  => for role -:   IsAShop
         [AllowAnonymous]
         [Route("Register/Shop")]
-        public async Task<IHttpActionResult> RegisterShop(RegisterBindingModel model)
+        public async Task<IHttpActionResult> RegisterShop(ShopAccountViewModels model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            RegisterBindingModel registerBindingModel = model.RegisterBindingModel;
 
             //  creating ApplicationUser object
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = registerBindingModel.Email, Email = registerBindingModel.Email };
 
             //  creating ApplicationUser Instance and adding to database ie. creating registration
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user, registerBindingModel.Password);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
+            // Adding to ShopDetails
+            try
+            {
+                using(cartDBEntitiesConn cartDBEntitiesConn = new cartDBEntitiesConn())
+                {
+                    ShopDetail shopDetail = new ShopDetail()
+                    {
+                        ShopName = model.ShopName,
+                        ShopKeeperName = model.ShopKeeperName,
+                        Shop_Domain_Name = model.Shop_Domain_Name,
+                        Address = model.Address,
+                        Mobile = model.Mobile,
+                        Pin_Code = model.Pin_Code,
+                        AspNetUsersId = user.Id
+                    };
+                    cartDBEntitiesConn.ShopDetails.Add(shopDetail);
+                    cartDBEntitiesConn.SaveChanges();
+                }
+
+                await UserManager.AddToRoleAsync(user.Id, "IsAShop");     //  Assign role to the user as IsACustomer
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
 
             //Temp code => For Admin(Manager movies)  // for assiging role  **Important**
             //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
