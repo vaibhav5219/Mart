@@ -14,6 +14,12 @@ namespace EF.mart
     
     public partial class ShopDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ShopDetail()
+        {
+            this.Products = new HashSet<Product>();
+        }
+    
         public int Shop_Id { get; set; }
         public string Shop_Code { get; set; }
         public string ShopName { get; set; }
@@ -23,8 +29,8 @@ namespace EF.mart
         public string Shop_Domain_Name { get; set; }
         public string Pin_Code { get; set; }
         public string AspNetUsersId { get; set; }
-        public int Product_Id { get; set; }
     
-        public virtual Product Product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

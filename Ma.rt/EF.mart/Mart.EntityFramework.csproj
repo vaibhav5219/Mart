@@ -68,9 +68,6 @@
     <Compile Include="Category.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>MtModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="MtModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,9 +97,6 @@
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>MtModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

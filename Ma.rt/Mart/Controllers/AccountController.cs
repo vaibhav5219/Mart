@@ -368,6 +368,8 @@ namespace Mart.Controllers
             //  creating ApplicationUser Instance and adding to database ie. creating registration
             IdentityResult result = await UserManager.CreateAsync(user, registerBindingModel.Password);
 
+            await UserManager.AddToRoleAsync(user.Id, "IsAShop");
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -404,8 +406,7 @@ namespace Mart.Controllers
             //var roleManager = new RoleManager<IdentityRole>(roleStore);
             //await roleManager.CreateAsync(new IdentityRole("IsACustomer"));   //  create a role in db for IsACustomer
             //await roleManager.CreateAsync(new IdentityRole("IsAShop"));       //  create a role in db for IsAShop
-
-            await UserManager.AddToRoleAsync(user.Id, "IsAShop");     //  Assign role to the user as IsACustomer
+            //await UserManager.AddToRoleAsync(user.Id, "IsAShop");     //  Assign role to the user as IsACustomer
 
             return Ok();
         }

@@ -63,7 +63,7 @@
                     data: {
                         username: $('#textEmail').val(),
                         password: $('#textPassword').val(),
-                        grant_type : 'password'
+                        grant_type: 'password'
                     },
                     success: function (response) {
                         var aToken = JSON.stringify(response.access_token);
@@ -83,7 +83,7 @@
                     url: '/api/values',
                     method: 'Get',
                     headers: {
-                        'Authorization': "Bearer " + sessionStorage.getItem("accessToken")
+                        'Authorization': "Bearer "+String(sessionStorage.getItem("accessToken"))
                     },
                     success: function (response) {
                         $('#loadCategories').text(response);
