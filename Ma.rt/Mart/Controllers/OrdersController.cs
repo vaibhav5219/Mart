@@ -50,39 +50,40 @@ namespace Mart.Controllers
         }
 
         // PUT: api/Orders/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutOrder(int id, Order order)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[Route("UpdateOrder/{id}")]
+        //[ResponseType(typeof(void))]
+        //public async Task<IHttpActionResult> PutOrder(int id, Order order)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != order.Order_Id)
-            {
-                return BadRequest();
-            }
+        //    if (id != order.Order_Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(order).State = EntityState.Modified;
+        //    db.Entry(order).State = EntityState.Modified;
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!OrderExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
         //// POST: api/Orders
         //[ResponseType(typeof(Order))]
@@ -99,21 +100,25 @@ namespace Mart.Controllers
         //    return CreatedAtRoute("DefaultApi", new { id = order.Order_Id }, order);
         //}
 
-        //// DELETE: api/Orders/5
-        //[ResponseType(typeof(Order))]
-        //public async Task<IHttpActionResult> DeleteOrder(int id)
-        //{
-        //    Order order = await db.Orders.FindAsync(id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/Orders/5  =>  Cancel Order
+        [Route("CancelOrder/{id}")]
+        [ResponseType(typeof(Order))]
+        public async Task<IHttpActionResult> DeleteOrder(int id)
+        {
+            Order order = await db.Orders.FindAsync(id);
+            string userId = User.Identity.GetUserId();
+            ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
-        //    db.Orders.Remove(order);
-        //    await db.SaveChangesAsync();
+            if (order == null || order.Shop_Code != shopDetail.Shop_Code)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(order);
-        //}
+            db.Orders.Remove(order);
+            await db.SaveChangesAsync();
+
+            return Ok(order);
+        }
 
         protected override void Dispose(bool disposing)
         {
