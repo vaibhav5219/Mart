@@ -24,16 +24,18 @@ namespace Mart.Controllers
         // GET: api/Products
         // GET api/Products/GetProducts
         [HttpGet]
-        [Route("/GetProducts")]
+        [Route("GetProducts")]
         public IQueryable<Product> GetProducts()
         {
             string userId = User.Identity.GetUserId();
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
+            db.Configuration.ProxyCreationEnabled = false;
             return db.Products.Where(u => u.Shop_Code == shopDetail.Shop_Code);
         }
 
         // GET: api/Products/5
+        [Route("GetProducts/{id:int}")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> GetProduct(int id, string Shop_Code)
         {
@@ -50,6 +52,7 @@ namespace Mart.Controllers
         }
 
         // PUT: api/Products/5
+        [Route("UpdateProducts/{id:int}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProduct(int id, Product product)
         {
@@ -88,7 +91,7 @@ namespace Mart.Controllers
 
         // POST:  api/Products/SetProduct
         [HttpPost]
-        [Route("/SetProduct")]
+        [Route("SetProduct")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> PostProduct(SetProductViewModel setProductViewModel)
         {
@@ -132,6 +135,7 @@ namespace Mart.Controllers
         }
 
         // DELETE: api/Products/5
+        [Route("RemoveProducts/{id:int}")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> DeleteProduct(int id)
         {
@@ -160,6 +164,7 @@ namespace Mart.Controllers
             base.Dispose(disposing);
         }
 
+        [Route("IsProductExists")]
         private bool ProductExists(int id)
         {
             return db.Products.Count(e => e.ProductID == id) > 0;

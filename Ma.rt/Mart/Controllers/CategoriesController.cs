@@ -23,7 +23,7 @@ namespace Mart.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        [Route("/GetCategories")]
+        [Route("GetCategories")]
         public IQueryable<Category> GetCategories()
         {
 
@@ -35,7 +35,7 @@ namespace Mart.Controllers
 
         // GET: api/Categories/5
         [HttpGet]
-        [Route("/GetCategories/{id}")]
+        [Route("GetCategories/{id:int}")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> GetCategory(int id)
         {
@@ -53,7 +53,7 @@ namespace Mart.Controllers
 
         // PUT: api/Categories/5
         [HttpPut]
-        [Route("/EditCategories/{id}")]
+        [Route("EditCategories/{id:int}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCategory(int id, Category category)
         {
@@ -91,6 +91,7 @@ namespace Mart.Controllers
         }
 
         // POST: api/Categories
+        [Route("SetCategory")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> PostCategory(SetCategoryModel categoryModel)
         {
@@ -131,6 +132,7 @@ namespace Mart.Controllers
         }
 
         // DELETE: api/Categories/5
+        [Route("RemoveCategory/{id:int}")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> DeleteCategory(int id)
         {
@@ -159,6 +161,7 @@ namespace Mart.Controllers
             base.Dispose(disposing);
         }
 
+        [Route("IsCategoryExists")]
         private bool CategoryExists(int id)
         {
             return db.Categories.Count(e => e.CategoryID == id) > 0;

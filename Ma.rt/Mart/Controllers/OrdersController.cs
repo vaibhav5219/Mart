@@ -22,7 +22,7 @@ namespace Mart.Controllers
 
         // GET: api/Orders
         [HttpGet]
-        [Route("/GetOrders")]
+        [Route("GetOrders")]
         public IQueryable<Order> GetOrders()
         {
             string userId = User.Identity.GetUserId();
@@ -33,7 +33,7 @@ namespace Mart.Controllers
 
         // GET: api/Orders/5
         [HttpGet]
-        [Route("/GetOrders/{id}")]
+        [Route("GetOrders/{id:int}")]
         [ResponseType(typeof(Order))]
         public async Task<IHttpActionResult> GetOrder(int id)
         {
@@ -101,7 +101,7 @@ namespace Mart.Controllers
         //}
 
         // DELETE: api/Orders/5  =>  Cancel Order
-        [Route("CancelOrder/{id}")]
+        [Route("CancelOrder/{id:int}")]
         [ResponseType(typeof(Order))]
         public async Task<IHttpActionResult> DeleteOrder(int id)
         {
@@ -128,7 +128,7 @@ namespace Mart.Controllers
             }
             base.Dispose(disposing);
         }
-
+        [Route("IsOrderExists")]
         private bool OrderExists(int id)
         {
             return db.Orders.Count(e => e.Order_Id == id) > 0;

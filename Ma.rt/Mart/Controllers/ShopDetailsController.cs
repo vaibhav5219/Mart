@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Mart.Controllers
 {
-    [RoutePrefix("api/ShopDetails/")]
+    [RoutePrefix("api/ShopDetails")]
     [Authorize(Roles = "IsAShop")]
     public class ShopDetailsController : ApiController
     {
@@ -46,7 +46,7 @@ namespace Mart.Controllers
         }
 
         // PUT: api/ShopDetails/5
-        [Route("EditShopDetails/{id}")]
+        [Route("UpdateShopDetails/{id}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutShopDetail(string id, ShopDetail shopDetail)
         {
@@ -140,6 +140,7 @@ namespace Mart.Controllers
             base.Dispose(disposing);
         }
 
+        [Route("IsShopExists")]
         private bool ShopDetailExists(string id)
         {
             return db.ShopDetails.Count(e => e.Shop_Id == id) > 0;
