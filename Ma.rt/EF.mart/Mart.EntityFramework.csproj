@@ -83,6 +83,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MtModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>

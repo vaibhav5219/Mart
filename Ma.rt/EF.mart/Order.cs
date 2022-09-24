@@ -12,15 +12,14 @@ namespace EF.mart
     using System;
     using System.Collections.Generic;
     
-    public partial class CartItem
+    public partial class Order
     {
-        public int Quantity { get; set; }
-        public System.DateTime DateCreated { get; set; }
-        public int ProductId { get; set; }
-        public string Cart_Id { get; set; }
-        public string Item_Id { get; set; }
+        public int Order_Id { get; set; }
+        public System.DateTime Order_Date { get; set; }
+        public int Order_Total { get; set; }
+        public int Order_Status { get; set; }
+        public string Customer_Id { get; set; }
+        public Nullable<System.DateTime> Delivered_Date { get; set; }
         public string Shop_Code { get; set; }
-    
-        public virtual Product Product { get; set; }
     }
 }

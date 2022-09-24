@@ -36,6 +36,10 @@
     <EntitySet Name="AspNetUserLogins" EntityType="cartDBModel.AspNetUserLogin" />
     <EntitySet Name="AspNetUsers" EntityType="cartDBModel.AspNetUser" />
     <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
+    <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
+    <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
+    <EntitySet Name="Products" EntityType="cartDBModel.Product" />
+    <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -44,10 +48,15 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
     </AssociationSet>
+    <AssociationSet Name="FK_Products_Categories" Association="cartDBModel.FK_Products_Categories">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
     <AssociationSet Name="AspNetUserRoles" Association="cartDBModel.AspNetUserRoles">
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
     <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
@@ -63,7 +72,11 @@
     <AssociationSet Name="FK_Products_Categories" Association="cartDBModel.FK_Products_Categories">
       <End Role="Category" EntitySet="Categories" />
 >>>>>>> feature/add-products-for-shop
+=======
+    <AssociationSet Name="FK_CartItems_Products" Association="cartDBModel.FK_CartItems_Products">
+>>>>>>> feature/Order-Branch
       <End Role="Product" EntitySet="Products" />
+      <End Role="CartItem" EntitySet="CartItems" />
     </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -128,46 +141,16 @@
   </EntityType>
   <EntityType Name="CartItem">
     <Key>
-      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="Cart_Id" />
     </Key>
-    <Property Name="ItemId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Cart_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Item_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="cartDBModel.FK_CartItems_Products" FromRole="CartItem" ToRole="Product" />
   </EntityType>
-  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="cartDBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserClaim">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="cartDBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUser">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserLogin">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AspNetUserRoles">
-    <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-  </Association>
   <EntityType Name="Category">
     <Key>
       <PropertyRef Name="CategoryID" />
@@ -175,7 +158,20 @@
     <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_Categories" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Order_Total" Type="Int32" Nullable="false" />
+    <Property Name="Order_Status" Type="Int32" Nullable="false" />
+    <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
+    <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -189,6 +185,7 @@
     <Property Name="CategoryID" Type="Int32" />
     <Property Name="Shop_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="CartItems" Relationship="cartDBModel.FK_CartItems_Products" FromRole="Product" ToRole="CartItem" />
   </EntityType>
   <EntityType Name="CartItem">
     <Key>
@@ -252,6 +249,34 @@
         <PropertyRef Name="Shop_Id" />
 =======
   </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="cartDBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="cartDBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Products_Categories">
     <End Type="cartDBModel.Category" Role="Category" Multiplicity="0..1" />
     <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
@@ -262,6 +287,22 @@
       <Dependent Role="Product">
         <PropertyRef Name="CategoryID" />
 >>>>>>> feature/add-products-for-shop
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_CartItems_Products">
+    <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="cartDBModel.CartItem" Role="CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
