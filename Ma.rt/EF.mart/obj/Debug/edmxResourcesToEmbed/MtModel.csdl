@@ -1,88 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="cartDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="CartItem">
-    <Key>
-      <PropertyRef Name="ItemId" />
-    </Key>
-    <Property Name="ItemId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Quantity" Type="Int32" Nullable="false" />
-    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Product" Relationship="Self.FK_dbo_CartItems_dbo_Products_ProductId" FromRole="CartItems" ToRole="Products" />
-  </EntityType>
-  <EntityType Name="Category">
-    <Key>
-      <PropertyRef Name="CategoryID" />
-    </Key>
-    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Products" Relationship="Self.FK_dbo_Products_dbo_Categories_CategoryID" FromRole="Categories" ToRole="Products" />
-  </EntityType>
-  <EntityType Name="Product">
-    <Key>
-      <PropertyRef Name="ProductID" />
-    </Key>
-    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="UnitPrice" Type="Double" />
-    <Property Name="CategoryID" Type="Int32" />
-    <NavigationProperty Name="CartItems" Relationship="Self.FK_dbo_CartItems_dbo_Products_ProductId" FromRole="Products" ToRole="CartItems" />
-    <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Products_dbo_Categories_CategoryID" FromRole="Products" ToRole="Categories" />
-    <NavigationProperty Name="ShopDetails" Relationship="cartDBModel.FK_ShopDetails_Products" FromRole="Product" ToRole="ShopDetail" />
-  </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
-  <Association Name="FK_dbo_CartItems_dbo_Products_ProductId">
-    <End Role="Products" Type="Self.Product" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="ProductID" />
-      </Principal>
-      <Dependent Role="CartItems">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_Products_dbo_Categories_CategoryID">
-    <End Role="Categories" Type="Self.Category" Multiplicity="0..1" />
-    <End Role="Products" Type="Self.Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Categories">
-        <PropertyRef Name="CategoryID" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="CategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="cartDBEntitiesConn" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="CartItems" EntityType="Self.CartItem" />
-    <EntitySet Name="Categories" EntityType="Self.Category" />
-    <EntitySet Name="Products" EntityType="Self.Product" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-    <AssociationSet Name="FK_dbo_CartItems_dbo_Products_ProductId" Association="Self.FK_dbo_CartItems_dbo_Products_ProductId">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="CartItems" EntitySet="CartItems" />
-    </AssociationSet>
-    <AssociationSet Name="FK_dbo_Products_dbo_Categories_CategoryID" Association="Self.FK_dbo_Products_dbo_Categories_CategoryID">
-      <End Role="Categories" EntitySet="Categories" />
-      <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -113,7 +31,6 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <EntitySet Name="C__MigrationHistory" EntityType="cartDBModel.C__MigrationHistory" />
     <EntitySet Name="AspNetRoles" EntityType="cartDBModel.AspNetRole" />
     <EntitySet Name="AspNetUserClaims" EntityType="cartDBModel.AspNetUserClaim" />
     <EntitySet Name="AspNetUserLogins" EntityType="cartDBModel.AspNetUserLogin" />
@@ -131,10 +48,13 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
     <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
+    <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
+    <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
+    <EntitySet Name="Products" EntityType="cartDBModel.Product" />
     <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
-    <AssociationSet Name="FK_ShopDetails_Products" Association="cartDBModel.FK_ShopDetails_Products">
-      <End Role="Product" EntitySet="Products" />
+    <AssociationSet Name="FK_Products_ShopDetails" Association="cartDBModel.FK_Products_ShopDetails">
       <End Role="ShopDetail" EntitySet="ShopDetails" />
+      <End Role="Product" EntitySet="Products" />
     </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -148,16 +68,6 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
-  <EntityType Name="C__MigrationHistory">
-    <Key>
-      <PropertyRef Name="MigrationId" />
-      <PropertyRef Name="ContextKey" />
-    </Key>
-    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="AspNetRole">
     <Key>
       <PropertyRef Name="Id" />
@@ -250,11 +160,42 @@
     <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
   </EntityType>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="Double" />
+    <Property Name="CategoryID" Type="Int32" />
+    <Property Name="Shop_Id" Type="Int32" />
+    <NavigationProperty Name="ShopDetail" Relationship="cartDBModel.FK_Products_ShopDetails" FromRole="Product" ToRole="ShopDetail" />
+  </EntityType>
   <EntityType Name="ShopDetail">
     <Key>
       <PropertyRef Name="Shop_Id" />
     </Key>
-    <Property Name="Shop_Id" Type="Int32" Nullable="false" />
+    <Property Name="Shop_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShopName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ShopKeeperName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -263,18 +204,17 @@
     <Property Name="Shop_Domain_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Pin_Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Product_Id" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Product" Relationship="cartDBModel.FK_ShopDetails_Products" FromRole="ShopDetail" ToRole="Product" />
+    <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_ShopDetails" FromRole="ShopDetail" ToRole="Product" />
   </EntityType>
-  <Association Name="FK_ShopDetails_Products">
-    <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
-    <End Type="cartDBModel.ShopDetail" Role="ShopDetail" Multiplicity="*" />
+  <Association Name="FK_Products_ShopDetails">
+    <End Type="cartDBModel.ShopDetail" Role="ShopDetail" Multiplicity="0..1" />
+    <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ProductID" />
+      <Principal Role="ShopDetail">
+        <PropertyRef Name="Shop_Id" />
       </Principal>
-      <Dependent Role="ShopDetail">
-        <PropertyRef Name="Product_Id" />
+      <Dependent Role="Product">
+        <PropertyRef Name="Shop_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

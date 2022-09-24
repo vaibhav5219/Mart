@@ -5,7 +5,6 @@ C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramew
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.xml
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityFramework.csproj.AssemblyReference.cache
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityFramework.csproj.CoreCompileInputs.cache
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityFramework.csproj.CopyComplete
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
