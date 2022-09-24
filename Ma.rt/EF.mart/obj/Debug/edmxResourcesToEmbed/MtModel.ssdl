@@ -69,17 +69,6 @@
     <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
-  <EntityType Name="Order">
-    <Key>
-      <PropertyRef Name="Order_Id" />
-    </Key>
-    <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Order_Date" Type="datetime" Nullable="false" />
-    <Property Name="Order_Total" Type="int" Nullable="false" />
-    <Property Name="Order_Status" Type="int" Nullable="false" />
-    <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Delivered_Date" Type="date" />
-  </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -90,13 +79,21 @@
     <Property Name="ImagePath" Type="nvarchar(max)" />
     <Property Name="UnitPrice" Type="float" />
     <Property Name="CategoryID" Type="int" />
+<<<<<<< HEAD
     <Property Name="Shop_Id" Type="int" />
+=======
+    <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" />
+>>>>>>> feature/add-products-for-shop
   </EntityType>
   <EntityType Name="ShopDetails">
     <Key>
       <PropertyRef Name="Shop_Id" />
     </Key>
+<<<<<<< HEAD
     <Property Name="Shop_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+=======
+    <Property Name="Shop_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+>>>>>>> feature/add-products-for-shop
     <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ShopName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="ShopKeeperName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -162,14 +159,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+<<<<<<< HEAD
   <Association Name="FK_Products_ShopDetails">
     <End Role="ShopDetails" Type="Self.ShopDetails" Multiplicity="0..1" />
+=======
+  <Association Name="FK_Products_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+>>>>>>> feature/add-products-for-shop
     <End Role="Products" Type="Self.Products" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ShopDetails">
         <PropertyRef Name="Shop_Id" />
       </Principal>
       <Dependent Role="Products">
+<<<<<<< HEAD
         <PropertyRef Name="Shop_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -205,6 +208,15 @@
     <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+=======
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Products_ShopDetails" />-->
+>>>>>>> feature/add-products-for-shop
   <EntityContainer Name="cartDBModelStoreContainer">
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -213,7 +225,6 @@
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShopDetails" EntityType="Self.ShopDetails" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -232,8 +243,13 @@
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
     </AssociationSet>
+<<<<<<< HEAD
     <AssociationSet Name="FK_Products_ShopDetails" Association="Self.FK_Products_ShopDetails">
       <End Role="ShopDetails" EntitySet="ShopDetails" />
+=======
+    <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+>>>>>>> feature/add-products-for-shop
       <End Role="Products" EntitySet="Products" />
     </AssociationSet>
   </EntityContainer>

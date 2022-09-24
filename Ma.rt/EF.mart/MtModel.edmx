@@ -73,17 +73,7 @@
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Order_Id" />
-          </Key>
-          <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Order_Date" Type="datetime" Nullable="false" />
-          <Property Name="Order_Total" Type="int" Nullable="false" />
-          <Property Name="Order_Status" Type="int" Nullable="false" />
-          <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Delivered_Date" Type="date" />
+          <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -95,13 +85,13 @@
           <Property Name="ImagePath" Type="nvarchar(max)" />
           <Property Name="UnitPrice" Type="float" />
           <Property Name="CategoryID" Type="int" />
-          <Property Name="Shop_Id" Type="int" />
+          <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ShopDetails">
           <Key>
             <PropertyRef Name="Shop_Id" />
           </Key>
-          <Property Name="Shop_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Shop_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ShopName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ShopKeeperName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -167,49 +157,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Products_ShopDetails">
-          <End Role="ShopDetails" Type="Self.ShopDetails" Multiplicity="0..1" />
+        <Association Name="FK_Products_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Products" Type="Self.Products" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ShopDetails">
-              <PropertyRef Name="Shop_Id" />
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="Products">
-              <PropertyRef Name="Shop_Id" />
+              <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Products_ShopDetails" />-->
         <EntityContainer Name="cartDBModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -218,7 +180,6 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopDetails" EntityType="Self.ShopDetails" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -237,8 +198,8 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Products_ShopDetails" Association="Self.FK_Products_ShopDetails">
-            <End Role="ShopDetails" EntitySet="ShopDetails" />
+          <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
+            <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
         </EntityContainer>
@@ -281,6 +242,7 @@
           <EntitySet Name="AspNetUserClaims" EntityType="cartDBModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="cartDBModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="cartDBModel.AspNetUser" />
+          <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -293,13 +255,11 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
-          <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
           <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
           <EntitySet Name="Products" EntityType="cartDBModel.Product" />
           <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
-          <AssociationSet Name="FK_Products_ShopDetails" Association="cartDBModel.FK_Products_ShopDetails">
-            <End Role="ShopDetail" EntitySet="ShopDetails" />
+          <AssociationSet Name="FK_Products_Categories" Association="cartDBModel.FK_Products_Categories">
+            <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           </EntityContainer>
@@ -363,6 +323,16 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="cartDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="cartDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -395,27 +365,6 @@
           <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Order_Id" />
-          </Key>
-          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Order_Total" Type="Int32" Nullable="false" />
-          <Property Name="Order_Status" Type="Int32" Nullable="false" />
-          <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
-        </EntityType>
-        <EntityType Name="CartItem">
-          <Key>
-            <PropertyRef Name="ItemId" />
-          </Key>
-          <Property Name="ItemId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -423,6 +372,8 @@
           <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_Categories" FromRole="Category" ToRole="Product" />
+          <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -434,14 +385,14 @@
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="CategoryID" Type="Int32" />
-          <Property Name="Shop_Id" Type="Int32" />
-          <NavigationProperty Name="ShopDetail" Relationship="cartDBModel.FK_Products_ShopDetails" FromRole="Product" ToRole="ShopDetail" />
+          <Property Name="Shop_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
         </EntityType>
         <EntityType Name="ShopDetail">
           <Key>
             <PropertyRef Name="Shop_Id" />
           </Key>
-          <Property Name="Shop_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Shop_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ShopName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ShopKeeperName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -450,17 +401,16 @@
           <Property Name="Shop_Domain_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Pin_Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_ShopDetails" FromRole="ShopDetail" ToRole="Product" />
         </EntityType>
-        <Association Name="FK_Products_ShopDetails">
-          <End Type="cartDBModel.ShopDetail" Role="ShopDetail" Multiplicity="0..1" />
+        <Association Name="FK_Products_Categories">
+          <End Type="cartDBModel.Category" Role="Category" Multiplicity="0..1" />
           <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ShopDetail">
-              <PropertyRef Name="Shop_Id" />
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="Product">
-              <PropertyRef Name="Shop_Id" />
+              <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -470,30 +420,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="cartDBModelStoreContainer" CdmEntityContainer="cartDBEntitiesConn">
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="cartDBModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="cartDBModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="cartDBModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="cartDBModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="cartDBModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="cartDBModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="cartDBModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="cartDBModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="cartDBModel.Store.sp_upgraddiagrams" />
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="cartDBModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -539,26 +465,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="cartDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="cartDBModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
-                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
-                <ScalarProperty Name="Order_Status" ColumnName="Order_Status" />
-                <ScalarProperty Name="Order_Total" ColumnName="Order_Total" />
-                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
-                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CartItems">
             <EntityTypeMapping TypeName="cartDBModel.CartItem">
               <MappingFragment StoreEntitySet="CartItems">
@@ -570,9 +476,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="cartDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="cartDBModel.Category">
               <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
@@ -582,7 +497,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="cartDBModel.Product">
               <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="Shop_Id" ColumnName="Shop_Id" />
+                <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />

@@ -35,6 +35,7 @@
     <EntitySet Name="AspNetUserClaims" EntityType="cartDBModel.AspNetUserClaim" />
     <EntitySet Name="AspNetUserLogins" EntityType="cartDBModel.AspNetUserLogin" />
     <EntitySet Name="AspNetUsers" EntityType="cartDBModel.AspNetUser" />
+    <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -47,6 +48,7 @@
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+<<<<<<< HEAD
     <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
     <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
     <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
@@ -54,6 +56,13 @@
     <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
     <AssociationSet Name="FK_Products_ShopDetails" Association="cartDBModel.FK_Products_ShopDetails">
       <End Role="ShopDetail" EntitySet="ShopDetails" />
+=======
+    <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
+    <EntitySet Name="Products" EntityType="cartDBModel.Product" />
+    <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
+    <AssociationSet Name="FK_Products_Categories" Association="cartDBModel.FK_Products_Categories">
+      <End Role="Category" EntitySet="Categories" />
+>>>>>>> feature/add-products-for-shop
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
   </EntityContainer>
@@ -117,6 +126,16 @@
     <NavigationProperty Name="AspNetUserLogins" Relationship="cartDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
     <NavigationProperty Name="AspNetRoles" Relationship="cartDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
   </EntityType>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CartId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+  </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -149,16 +168,27 @@
     <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
     <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
   </Association>
-  <EntityType Name="Order">
+  <EntityType Name="Category">
     <Key>
-      <PropertyRef Name="Order_Id" />
+      <PropertyRef Name="CategoryID" />
     </Key>
-    <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Order_Date" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="Order_Total" Type="Int32" Nullable="false" />
-    <Property Name="Order_Status" Type="Int32" Nullable="false" />
-    <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_Categories" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="Double" />
+    <Property Name="CategoryID" Type="Int32" />
+    <Property Name="Shop_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
   </EntityType>
   <EntityType Name="CartItem">
     <Key>
@@ -195,7 +225,11 @@
     <Key>
       <PropertyRef Name="Shop_Id" />
     </Key>
+<<<<<<< HEAD
     <Property Name="Shop_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+=======
+    <Property Name="Shop_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+>>>>>>> feature/add-products-for-shop
     <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ShopName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ShopKeeperName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -204,6 +238,7 @@
     <Property Name="Shop_Domain_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Pin_Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+<<<<<<< HEAD
     <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_ShopDetails" FromRole="ShopDetail" ToRole="Product" />
   </EntityType>
   <Association Name="FK_Products_ShopDetails">
@@ -215,6 +250,18 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="Shop_Id" />
+=======
+  </EntityType>
+  <Association Name="FK_Products_Categories">
+    <End Type="cartDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryID" />
+>>>>>>> feature/add-products-for-shop
       </Dependent>
     </ReferentialConstraint>
   </Association>

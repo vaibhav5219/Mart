@@ -9,3 +9,4 @@ C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityF
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityFramework.csproj.CopyComplete
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.dll
 C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\EF.mart.pdb
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Debug\Mart.EntityFramework.csproj.AssemblyReference.cache

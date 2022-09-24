@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="cartDBModelStoreContainer" CdmEntityContainer="cartDBEntitiesConn">
+<<<<<<< HEAD
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="cartDBModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="cartDBModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="cartDBModel.Store.sp_dropdiagram" />
@@ -25,6 +26,8 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="cartDBModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="cartDBModel.Store.sp_upgraddiagrams" />
+=======
+>>>>>>> feature/add-products-for-shop
     <EntitySetMapping Name="AspNetRoles">
       <EntityTypeMapping TypeName="cartDBModel.AspNetRole">
         <MappingFragment StoreEntitySet="AspNetRoles">
@@ -70,6 +73,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CartItems">
+      <EntityTypeMapping TypeName="cartDBModel.CartItem">
+        <MappingFragment StoreEntitySet="CartItems">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="CartId" ColumnName="CartId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="cartDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetUser">
         <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -78,15 +92,25 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="cartDBModel.Order">
-        <MappingFragment StoreEntitySet="Order">
-          <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
-          <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
-          <ScalarProperty Name="Order_Status" ColumnName="Order_Status" />
-          <ScalarProperty Name="Order_Total" ColumnName="Order_Total" />
-          <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
-          <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="cartDBModel.Category">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="cartDBModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
