@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShopDetailsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\SetCategoryModel.cs" />
     <Compile Include="Models\SetProductViewModel.cs" />
     <Compile Include="Models\ShopAccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
