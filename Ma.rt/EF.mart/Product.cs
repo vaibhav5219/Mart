@@ -20,8 +20,8 @@ namespace EF.mart
         public string ImagePath { get; set; }
         public Nullable<double> UnitPrice { get; set; }
         public Nullable<int> CategoryID { get; set; }
-        public Nullable<int> Shop_Id { get; set; }
+        public string Shop_Code { get; set; }
     
-        public virtual ShopDetail ShopDetail { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

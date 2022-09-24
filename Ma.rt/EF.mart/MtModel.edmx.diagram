@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f83f987c5408465a8730ccce6d95e45f" Name="Diagram1" ZoomLevel="71">
-        <EntityTypeShape EntityType="cartDBModel.AspNetRole" Width="1.5" PointX="3.375" PointY="6.625" />
-        <EntityTypeShape EntityType="cartDBModel.AspNetUserClaim" Width="1.5" PointX="7.875" PointY="5.125" />
-        <EntityTypeShape EntityType="cartDBModel.AspNetUserLogin" Width="1.5" PointX="7.875" PointY="8" />
-        <EntityTypeShape EntityType="cartDBModel.AspNetUser" Width="1.5" PointX="5.625" PointY="5.375" />
+      <Diagram DiagramId="f83f987c5408465a8730ccce6d95e45f" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="cartDBModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="4" />
+        <EntityTypeShape EntityType="cartDBModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="cartDBModel.CartItem" Width="1.5" PointX="7.75" PointY="3.625" />
         <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cartDBModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="cartDBModel.Order" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="cartDBModel.CartItem" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="cartDBModel.Category" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="cartDBModel.Product" Width="1.5" PointX="3" PointY="1.25" />
-        <EntityTypeShape EntityType="cartDBModel.ShopDetail" Width="1.5" PointX="0.75" PointY="1" />
-        <AssociationConnector Association="cartDBModel.FK_Products_ShopDetails" />
-        </Diagram>
+        <EntityTypeShape EntityType="cartDBModel.Category" Width="1.5" PointX="0.75" PointY="7.375" />
+        <EntityTypeShape EntityType="cartDBModel.Product" Width="1.5" PointX="3" PointY="7" />
+        <EntityTypeShape EntityType="cartDBModel.ShopDetail" Width="1.5" PointX="5.75" PointY="6.75" />
+        <AssociationConnector Association="cartDBModel.FK_Products_Categories" />
+      </Diagram>
+      <Diagram DiagramId="04e5e7d8b4c74d859f75360c3539a5c1" Name="Diagram2" >
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
