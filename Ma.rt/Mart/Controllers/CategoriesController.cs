@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity;
 namespace Mart.Controllers
 {
     [RoutePrefix("api/categories")]
+    [Authorize(Roles = "IsAShop")]
     public class CategoriesController : ApiController
     {
         private cartDBEntitiesConn db = new cartDBEntitiesConn();
