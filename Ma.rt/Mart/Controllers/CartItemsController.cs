@@ -15,14 +15,14 @@ using Microsoft.AspNet.Identity;
 namespace Mart.Controllers
 {
     [RoutePrefix("api/CartItems")]
-    [Authorize(Roles = "IsAShop")]
+    [Authorize]
     public class CartItemsController : ApiController
     {
         private cartDBEntitiesConn db = new cartDBEntitiesConn();
 
         // GET: api/CartItems
         [HttpGet]
-        [Route("GetOrders")]
+        [Route("GetCartItems")]
         public IQueryable<CartItem> GetCartItems()
         {
             string userId = User.Identity.GetUserId();
@@ -35,6 +35,7 @@ namespace Mart.Controllers
         // GET: api/CartItems/5
         [HttpGet]
         [Route("GetOrders/{id}")]
+        [Authorize(Roles = "IsACustomer")]
         [ResponseType(typeof(CartItem))]
         public async Task<IHttpActionResult> GetCartItem(string id)
         {
@@ -87,51 +88,96 @@ namespace Mart.Controllers
         //    return StatusCode(HttpStatusCode.NoContent);
         //}
 
-        //// POST: api/CartItems
-        //[ResponseType(typeof(CartItem))]
-        //public async Task<IHttpActionResult> PostCartItem(CartItem cartItem)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // POST: api/CartItems  =>  Add to cart
+        [Authorize(Roles = "IsACustomer")]
+        [Route("AddToCart")]
+        [ResponseType(typeof(CartItem))]
+        public async Task<IHttpActionResult> PostCartItem(CartItem cartItem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
+            Customer customer = db.Customers.FirstOrDefault(c => c.AspNetUserId == userId);
 
-        //    db.CartItems.Add(cartItem);
+            var cartItemExists = db.CartItems.SingleOrDefault(
+               c => c.Cart_Id == cartItem.Cart_Id 
+               && c.ProductId == cartItem.ProductId);
 
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (CartItemExists(cartItem.Cart_Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            if (cartItemExists == null)
+            {
+                // Create a new cart item if no cart item exists.                 
+                cartItem = new CartItem
+                {
+                    Item_Id = Guid.NewGuid().ToString(),
+                    ProductId = cartItem.ProductId,
+                    //Product = db.Products.SingleOrDefault(p => p.ProductID == id),
+                    Quantity = 1,
+                    DateCreated = DateTime.Now,
+                    Shop_Code = cartItem.Shop_Code
+                };
 
-        //    return CreatedAtRoute("DefaultApi", new { id = cartItem.Cart_Id }, cartItem);
-        //}
+                db.CartItems.Add(cartItem);
+            }
+            else
+            {
+                // If the item does exist in the cart,                  
+                // then add one to the quantity.                 
+                cartItem.Quantity++;
+            }
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (CartItemExists(cartItem.Cart_Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        // DELETE: api/CartItems/5
-        //[ResponseType(typeof(CartItem))]
-        //public async Task<IHttpActionResult> DeleteCartItem(string id)
-        //{
-        //    CartItem cartItem = await db.CartItems.FindAsync(id);
-        //    if (cartItem == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return CreatedAtRoute("DefaultApi", new { id = cartItem.Cart_Id }, cartItem);
+        }
 
-        //    db.CartItems.Remove(cartItem);
-        //    await db.SaveChangesAsync();
+        // DELETE: api/CartItems/5  => Remove Cart Item
+        [ResponseType(typeof(CartItem))]
+        [Authorize(Roles = "IsACustomer")]
+        [Route("RemoveCartItem/{id:int}")]
+        public async Task<IHttpActionResult> DeleteCartItem(string id)
+        {
+            CartItem cartItem = await db.CartItems.FindAsync(id);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(cartItem);
-        //}
+            string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
+            Customer customer = db.Customers.FirstOrDefault(c => c.AspNetUserId == userId);
+
+            var cartItemExists = db.CartItems.SingleOrDefault(
+               c => c.Cart_Id == cartItem.Cart_Id
+               && c.ProductId == cartItem.ProductId);
+
+            if (cartItemExists != null && cartItem.Quantity > 0)
+            {
+                // If the item does exist in the cart,                  
+                // then add one to the quantity.                 
+                cartItem.Quantity--;
+            }
+
+            db.CartItems.Remove(cartItem);
+            await db.SaveChangesAsync();
+
+            return Ok(cartItem);
+        }
 
         protected override void Dispose(bool disposing)
         {
