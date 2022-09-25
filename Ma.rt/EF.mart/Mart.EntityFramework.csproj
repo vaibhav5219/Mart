@@ -68,6 +68,9 @@
     <Compile Include="Category.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MtModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
