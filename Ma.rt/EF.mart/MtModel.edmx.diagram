@@ -21,6 +21,7 @@
         <AssociationConnector Association="cartDBModel.FK_CartItems_Products" />
         <EntityTypeShape EntityType="cartDBModel.Customer" Width="1.5" PointX="9.625" PointY="1.25" />
         <EntityTypeShape EntityType="cartDBModel.Address" Width="1.5" PointX="10.375" PointY="6.75" />
+        <AssociationConnector Association="cartDBModel.FK_Order_Product_ID" />
       </Diagram>
       <Diagram DiagramId="04e5e7d8b4c74d859f75360c3539a5c1" Name="Diagram2" >
       </Diagram>

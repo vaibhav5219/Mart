@@ -15,7 +15,7 @@ using Microsoft.AspNet.Identity;
 namespace Mart.Controllers
 {
     [RoutePrefix("api/Orders")]
-    [Authorize(Roles = "IsAShop")]
+    [Authorize]
     public class OrdersController : ApiController
     {
         private cartDBEntitiesConn db = new cartDBEntitiesConn();
@@ -23,19 +23,24 @@ namespace Mart.Controllers
         // GET: api/Orders
         [HttpGet]
         [Route("GetOrders")]
+        [Authorize(Roles = "IsAShop")]
         public IQueryable<Order> GetOrders()
         {
             string userId = User.Identity.GetUserId();
             db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
-            return db.Orders.Where(u => u.Shop_Code == shopDetail.Shop_Code);
+            return db.Orders.Where(u => u.Shop_Code == shopDetail.Shop_Code
+                                   && u.Order_Status!=5 
+                                   && u.Order_Status!=4
+                                   && u.Order_Status!=3);
         }
 
         // GET: api/Orders/5
         [HttpGet]
-        [Route("GetOrders/{id:int}")]
+        [Route("FetchOrders/{id:int}")]
         [ResponseType(typeof(Order))]
+        [Authorize(Roles = "IsAShop")]
         public async Task<IHttpActionResult> GetOrder(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;
@@ -87,37 +92,130 @@ namespace Mart.Controllers
         //    return StatusCode(HttpStatusCode.NoContent);
         //}
 
-        //// POST: api/Orders
-        //[ResponseType(typeof(Order))]
-        //public async Task<IHttpActionResult> PostOrder(Order order)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // POST: api/Orders  
+        [ResponseType(typeof(Order))]
+        [Authorize(Roles = "IsACustomer")]
+        [Route("PlaceOrder")]
+        public async Task<IHttpActionResult> PostOrder(Order order=null)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    db.Orders.Add(order);
-        //    await db.SaveChangesAsync();
+            db.Configuration.ProxyCreationEnabled = false;
+            string userId = User.Identity.GetUserId();
+            ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.Shop_Code == order.Shop_Code);
+            Customer customer = db.Customers.SingleOrDefault(c => c.AspNetUserId == userId);
 
-        //    return CreatedAtRoute("DefaultApi", new { id = order.Order_Id }, order);
-        //}
+            // We can remove the Item from cart
+            // Then Change Order_Status
+            //   Order_Status = 1 => Order Placed
+            //   Order_Status = 2 => Order Confirmed By Shop Keeper
+            //   Order_Status = 3 => Onthe Way
+            //   Order_Status = 4 => Delivered
+            //   Order_Status = 5 => Cancled
+
+            Order order1 = new Order()
+            {
+                Order_Date = DateTime.Now,
+                Order_Status = 1,            //    Order Placed
+                Order_Total = order.Order_Total,
+                Customer_Id = customer.AspNetUserId,
+                Product_Id = order.Product_Id,
+                Shop_Code = order.Shop_Code,
+            };
+
+            db.Orders.Add(order);
+            await db.SaveChangesAsync();
+
+            return CreatedAtRoute("DefaultApi", new { id = order.Order_Id }, order);
+        }
 
         // DELETE: api/Orders/5  =>  Cancel Order
         [Route("CancelOrder/{id:int}")]
         [ResponseType(typeof(Order))]
-        public async Task<IHttpActionResult> DeleteOrder(int id)
+        public async Task<IHttpActionResult> DeleteOrder(int id, string Shop_Code)
         {
             db.Configuration.ProxyCreationEnabled = false;
             Order order = await db.Orders.FindAsync(id);
             string userId = User.Identity.GetUserId();
-            ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
+            Customer customer = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
 
-            if (order == null || order.Shop_Code != shopDetail.Shop_Code)
+            if (order == null || order.Shop_Code != Shop_Code)
             {
                 return NotFound();
             }
+            order.Order_Status = 5;
 
-            db.Orders.Remove(order);
+            //db.Orders.Remove(order);
+            await db.SaveChangesAsync();
+
+            return Ok(order);
+        }
+
+        [ResponseType(typeof(Order))]
+        [Authorize(Roles = "IsAShop")]
+        [Route("ConfirmOrder")]
+        public async Task<IHttpActionResult> PostConfirmOrder(int id, string  Shop_Code)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            Order order = await db.Orders.FindAsync(id);
+            string userId = User.Identity.GetUserId();
+            Customer customer = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
+
+            if (order == null || order.Shop_Code != Shop_Code)
+            {
+                return NotFound();
+            }
+            order.Order_Status = 2;
+
+            //db.Orders.Remove(order);
+            await db.SaveChangesAsync();
+
+            return Ok(order);
+        }
+
+        [ResponseType(typeof(Order))]
+        [Authorize(Roles = "IsAShop")]
+        [Route("OrderOnTheWay")]
+        public async Task<IHttpActionResult> PostOrderOnTheWay(int id, string Shop_Code)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            Order order = await db.Orders.FindAsync(id);
+            string userId = User.Identity.GetUserId();
+            Customer customer = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
+
+            if (order == null || order.Shop_Code != Shop_Code)
+            {
+                return NotFound();
+            }
+            order.Order_Status = 3;
+
+            //db.Orders.Remove(order);
+            await db.SaveChangesAsync();
+
+            return Ok(order);
+        }
+
+        [ResponseType(typeof(Order))]
+        [Authorize(Roles = "IsAShop")]
+        [Route("OrderDelivered")]
+        public async Task<IHttpActionResult> PostOrderDelivered(int id, string Shop_Code)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            Order order = await db.Orders.FindAsync(id);
+            string userId = User.Identity.GetUserId();
+            Customer customer = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
+
+            if (order == null || order.Shop_Code != Shop_Code)
+            {
+                return NotFound();
+            }
+            order.Delivered_Date = DateTime.Now;
+            order.Order_Status = 4;    // Order Delivered
+
+            //db.Orders.Remove(order);
             await db.SaveChangesAsync();
 
             return Ok(order);

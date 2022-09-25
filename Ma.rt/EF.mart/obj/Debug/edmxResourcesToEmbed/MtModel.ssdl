@@ -107,6 +107,7 @@
     <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Delivered_Date" Type="date" />
     <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Product_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -212,10 +213,25 @@
   </Association>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <Association Name="FK_Products_ShopDetails">
     <End Role="ShopDetails" Type="Self.ShopDetails" Multiplicity="0..1" />
 =======
 =======
+=======
+  <Association Name="FK_Order_Product_ID">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+>>>>>>> feature/cartItem-Customer
   <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Order_ShopDetails' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_Order_ShopDetails" />-->
@@ -308,9 +324,16 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
     </AssociationSet>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <AssociationSet Name="FK_Products_ShopDetails" Association="Self.FK_Products_ShopDetails">
       <End Role="ShopDetails" EntitySet="ShopDetails" />
 =======
+=======
+    <AssociationSet Name="FK_Order_Product_ID" Association="Self.FK_Order_Product_ID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+>>>>>>> feature/cartItem-Customer
     <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
       <End Role="Categories" EntitySet="Categories" />
 >>>>>>> feature/add-products-for-shop

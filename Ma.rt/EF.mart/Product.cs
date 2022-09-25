@@ -18,6 +18,7 @@ namespace EF.mart
         public Product()
         {
             this.CartItems = new HashSet<CartItem>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int ProductID { get; set; }
@@ -31,5 +32,7 @@ namespace EF.mart
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

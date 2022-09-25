@@ -98,6 +98,7 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="cartDBModel.Order">
         <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
           <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
           <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
           <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
