@@ -112,6 +112,7 @@
           <Property Name="Customer_Id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Delivered_Date" Type="date" />
           <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Product_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -207,6 +208,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_Product_ID">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Order_ShopDetails' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_Order_ShopDetails" />-->
@@ -257,6 +270,10 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Product_ID" Association="Self.FK_Order_Product_ID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -329,6 +346,10 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           </AssociationSet>
           <EntitySet Name="Customers" EntityType="cartDBModel.Customer" />
           <EntitySet Name="Addresses" EntityType="cartDBModel.Address" />
+          <AssociationSet Name="FK_Order_Product_ID" Association="cartDBModel.FK_Order_Product_ID">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -423,6 +444,8 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="Customer_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="cartDBModel.FK_Order_Product_ID" FromRole="Order" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -437,6 +460,7 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="Shop_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="CartItems" Relationship="cartDBModel.FK_CartItems_Products" FromRole="Product" ToRole="CartItem" />
+          <NavigationProperty Name="Orders" Relationship="cartDBModel.FK_Order_Product_ID" FromRole="Product" ToRole="Order" />
         </EntityType>
         <EntityType Name="ShopDetail">
           <Key>
@@ -533,6 +557,18 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Postal_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_Order_Product_ID">
+          <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="cartDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -609,6 +645,7 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="cartDBModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
                 <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
                 <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
                 <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />

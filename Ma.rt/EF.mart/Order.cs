@@ -21,5 +21,8 @@ namespace EF.mart
         public string Customer_Id { get; set; }
         public Nullable<System.DateTime> Delivered_Date { get; set; }
         public string Shop_Code { get; set; }
+        public int Product_Id { get; set; }
+    
+        public virtual Product Product { get; set; }
     }
 }
