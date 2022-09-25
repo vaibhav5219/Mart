@@ -39,6 +39,7 @@ namespace Mart.Controllers
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> GetProduct(int id, string Shop_Code)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             Product product = await db.Products.FindAsync(id);
             string userId = User.Identity.GetUserId();
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
@@ -61,6 +62,7 @@ namespace Mart.Controllers
                 return BadRequest(ModelState);
             }
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (id != product.ProductID || shopDetail.Shop_Code != product.Shop_Code)
@@ -110,6 +112,7 @@ namespace Mart.Controllers
                 {
                     //enteties.Configuration.ProxyCreationEnabled = false;
                     string userId = User.Identity.GetUserId();
+                    db.Configuration.ProxyCreationEnabled = false;
                     ShopDetail shopDetail = enteties.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
                     Product product = new Product()
                     {
@@ -142,6 +145,7 @@ namespace Mart.Controllers
             Product product = await db.Products.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (product == null || shopDetail.Shop_Code != product.Shop_Code)
@@ -167,6 +171,7 @@ namespace Mart.Controllers
         [Route("IsProductExists")]
         private bool ProductExists(int id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             return db.Products.Count(e => e.ProductID == id) > 0;
         }
     }

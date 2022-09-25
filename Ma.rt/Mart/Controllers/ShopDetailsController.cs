@@ -34,6 +34,7 @@ namespace Mart.Controllers
             ShopDetail shopDetail = await db.ShopDetails.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail1 = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
 
@@ -54,6 +55,7 @@ namespace Mart.Controllers
             {
                 return BadRequest(ModelState);
             }
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail1 = await db.ShopDetails.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
@@ -143,6 +145,7 @@ namespace Mart.Controllers
         [Route("IsShopExists")]
         private bool ShopDetailExists(string id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             return db.ShopDetails.Count(e => e.Shop_Id == id) > 0;
         }
     }

@@ -26,6 +26,7 @@ namespace Mart.Controllers
         public IQueryable<CartItem> GetCartItems()
         {
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             return db.CartItems.Where(u => u.Shop_Code == shopDetail.Shop_Code);
@@ -40,6 +41,7 @@ namespace Mart.Controllers
             CartItem cartItem = await db.CartItems.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (cartItem == null || shopDetail.Shop_Code != cartItem.Shop_Code)
@@ -143,6 +145,7 @@ namespace Mart.Controllers
         [Route("IsCartItemExists")]
         private bool CartItemExists(string id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             return db.CartItems.Count(e => e.Cart_Id == id) > 0;
         }
     }
