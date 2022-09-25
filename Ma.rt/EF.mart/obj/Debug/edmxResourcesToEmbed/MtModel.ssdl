@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="cartDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="StreetNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerUserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Postal_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
@@ -70,6 +83,18 @@
     <Property Name="CategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Shop_Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mobile" Type="nchar" MaxLength="15" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="int" />
+    <Property Name="AspNetUserId" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -250,6 +275,7 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
         <Association Name="FK_Products_ShopDetails" />-->
 >>>>>>> feature/add-products-for-shop
   <EntityContainer Name="cartDBModelStoreContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -257,6 +283,7 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShopDetails" EntityType="Self.ShopDetails" Schema="dbo" store:Type="Tables" />

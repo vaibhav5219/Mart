@@ -11,14 +11,16 @@
         <EntityTypeShape EntityType="cartDBModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" />
         <EntityTypeShape EntityType="cartDBModel.CartItem" Width="1.5" PointX="5.75" PointY="6.75" />
         <EntityTypeShape EntityType="cartDBModel.Category" Width="1.5" PointX="0.75" PointY="7.25" />
-        <EntityTypeShape EntityType="cartDBModel.Order" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="cartDBModel.Order" Width="1.5" PointX="8.25" PointY="6.75" />
         <EntityTypeShape EntityType="cartDBModel.Product" Width="1.5" PointX="3" PointY="7" />
-        <EntityTypeShape EntityType="cartDBModel.ShopDetail" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="cartDBModel.ShopDetail" Width="1.5" PointX="7.25" PointY="1.25" />
         <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cartDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cartDBModel.FK_Products_Categories" />
         <AssociationConnector Association="cartDBModel.AspNetUserRoles" />
         <AssociationConnector Association="cartDBModel.FK_CartItems_Products" />
+        <EntityTypeShape EntityType="cartDBModel.Customer" Width="1.5" PointX="9.625" PointY="1.25" />
+        <EntityTypeShape EntityType="cartDBModel.Address" Width="1.5" PointX="10.375" PointY="6.75" />
       </Diagram>
       <Diagram DiagramId="04e5e7d8b4c74d859f75360c3539a5c1" Name="Diagram2" >
       </Diagram>

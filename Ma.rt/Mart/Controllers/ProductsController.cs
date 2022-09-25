@@ -24,19 +24,22 @@ namespace Mart.Controllers
         // GET: api/Products
         // GET api/Products/GetProducts
         [HttpGet]
-        [Route("/GetProducts")]
+        [Route("GetProducts")]
         public IQueryable<Product> GetProducts()
         {
             string userId = User.Identity.GetUserId();
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
+            db.Configuration.ProxyCreationEnabled = false;
             return db.Products.Where(u => u.Shop_Code == shopDetail.Shop_Code);
         }
 
         // GET: api/Products/5
+        [Route("GetProducts/{id:int}")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> GetProduct(int id, string Shop_Code)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             Product product = await db.Products.FindAsync(id);
             string userId = User.Identity.GetUserId();
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
@@ -50,6 +53,7 @@ namespace Mart.Controllers
         }
 
         // PUT: api/Products/5
+        [Route("UpdateProducts/{id:int}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProduct(int id, Product product)
         {
@@ -58,6 +62,7 @@ namespace Mart.Controllers
                 return BadRequest(ModelState);
             }
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (id != product.ProductID || shopDetail.Shop_Code != product.Shop_Code)
@@ -88,7 +93,7 @@ namespace Mart.Controllers
 
         // POST:  api/Products/SetProduct
         [HttpPost]
-        [Route("/SetProduct")]
+        [Route("SetProduct")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> PostProduct(SetProductViewModel setProductViewModel)
         {
@@ -107,6 +112,7 @@ namespace Mart.Controllers
                 {
                     //enteties.Configuration.ProxyCreationEnabled = false;
                     string userId = User.Identity.GetUserId();
+                    db.Configuration.ProxyCreationEnabled = false;
                     ShopDetail shopDetail = enteties.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
                     Product product = new Product()
                     {
@@ -132,12 +138,14 @@ namespace Mart.Controllers
         }
 
         // DELETE: api/Products/5
+        [Route("RemoveProducts/{id:int}")]
         [ResponseType(typeof(Product))]
         public async Task<IHttpActionResult> DeleteProduct(int id)
         {
             Product product = await db.Products.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (product == null || shopDetail.Shop_Code != product.Shop_Code)
@@ -160,8 +168,10 @@ namespace Mart.Controllers
             base.Dispose(disposing);
         }
 
+        [Route("IsProductExists")]
         private bool ProductExists(int id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             return db.Products.Count(e => e.ProductID == id) > 0;
         }
     }

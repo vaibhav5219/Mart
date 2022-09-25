@@ -206,8 +206,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\CartItemsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -218,6 +220,7 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CustomerAccountViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\SetCategoryModel.cs" />
     <Compile Include="Models\SetProductViewModel.cs" />

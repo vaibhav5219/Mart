@@ -14,59 +14,56 @@ using Microsoft.AspNet.Identity;
 
 namespace Mart.Controllers
 {
-    [RoutePrefix("api/ShopDetails")]
-    [Authorize(Roles = "IsAShop")]
-    public class ShopDetailsController : ApiController
+    [Authorize(Roles = "IsACustomer")]
+    [RoutePrefix("api/Customers")]
+    public class CustomersController : ApiController
     {
         private cartDBEntitiesConn db = new cartDBEntitiesConn();
 
-        // GET: api/ShopDetails
-        //public IQueryable<ShopDetail> GetShopDetails()
+        // GET: api/Customers
+        //[Route("GetCustomers")]
+        //public IQueryable<Customer> GetCustomers()
         //{
-        //    return db.ShopDetails;
+        //    return db.Customers;
         //}
 
-        // GET: api/ShopDetails/5
-        [Route("GetShopDetails/{id}")]
-        [ResponseType(typeof(ShopDetail))]
-        public async Task<IHttpActionResult> GetShopDetail(string id)
+        // GET: api/Customers/5
+        [Route("GetCustomer/{id:int}")]
+        [ResponseType(typeof(Customer))]
+        public async Task<IHttpActionResult> GetCustomer(int id)
         {
-            ShopDetail shopDetail = await db.ShopDetails.FindAsync(id);
-
             string userId = User.Identity.GetUserId();
             db.Configuration.ProxyCreationEnabled = false;
-            ShopDetail shopDetail1 = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
+            Customer customer1 = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
 
-
-            if (shopDetail == null || shopDetail.Shop_Code != shopDetail1.Shop_Code)
+            Customer customer = await db.Customers.FindAsync(id);
+            if (customer == null || customer1.UserName != customer.UserName)
             {
                 return NotFound();
             }
 
-            return Ok(shopDetail);
+            return Ok(customer);
         }
 
-        // PUT: api/ShopDetails/5
-        [Route("UpdateShopDetails/{id}")]
+        // PUT: api/Customers/5
+        [Route("UpdateCustomer/{id:int}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutShopDetail(string id, ShopDetail shopDetail)
+        public async Task<IHttpActionResult> PutCustomer(int id, Customer customer)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             db.Configuration.ProxyCreationEnabled = false;
-            ShopDetail shopDetail1 = await db.ShopDetails.FindAsync(id);
-
             string userId = User.Identity.GetUserId();
-            ShopDetail shopDetail2 = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
+            Customer customer1 = db.Customers.FirstOrDefault(u => u.AspNetUserId == userId);
 
-            if (id != shopDetail.Shop_Id || shopDetail1.Shop_Code != shopDetail2.Shop_Code)
+            if (id != customer.CustomerId || customer.UserName != customer1.UserName)
             {
                 return BadRequest();
             }
 
-            db.Entry(shopDetail).State = EntityState.Modified;
+            db.Entry(customer).State = EntityState.Modified;
 
             try
             {
@@ -74,7 +71,7 @@ namespace Mart.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ShopDetailExists(id))
+                if (!CustomerExists(id))
                 {
                     return NotFound();
                 }
@@ -87,16 +84,16 @@ namespace Mart.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/ShopDetails
-        //[ResponseType(typeof(ShopDetail))]
-        //public async Task<IHttpActionResult> PostShopDetail(ShopDetail shopDetail)
+        // POST: api/Customers
+        //[ResponseType(typeof(Customer))]
+        //public async Task<IHttpActionResult> PostCustomer(Customer customer)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
 
-        //    db.ShopDetails.Add(shopDetail);
+        //    db.Customers.Add(customer);
 
         //    try
         //    {
@@ -104,7 +101,7 @@ namespace Mart.Controllers
         //    }
         //    catch (DbUpdateException)
         //    {
-        //        if (ShopDetailExists(shopDetail.Shop_Id))
+        //        if (CustomerExists(customer.CustomerId))
         //        {
         //            return Conflict();
         //        }
@@ -114,23 +111,23 @@ namespace Mart.Controllers
         //        }
         //    }
 
-        //    return CreatedAtRoute("DefaultApi", new { id = shopDetail.Shop_Id }, shopDetail);
+        //    return CreatedAtRoute("DefaultApi", new { id = customer.CustomerId }, customer);
         //}
 
-        // DELETE: api/ShopDetails/5
-        //[ResponseType(typeof(ShopDetail))]
-        //public async Task<IHttpActionResult> DeleteShopDetail(string id)
+        // DELETE: api/Customers/5
+        //[ResponseType(typeof(Customer))]
+        //public async Task<IHttpActionResult> DeleteCustomer(int id)
         //{
-        //    ShopDetail shopDetail = await db.ShopDetails.FindAsync(id);
-        //    if (shopDetail == null)
+        //    Customer customer = await db.Customers.FindAsync(id);
+        //    if (customer == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    db.ShopDetails.Remove(shopDetail);
+        //    db.Customers.Remove(customer);
         //    await db.SaveChangesAsync();
 
-        //    return Ok(shopDetail);
+        //    return Ok(customer);
         //}
 
         protected override void Dispose(bool disposing)
@@ -141,12 +138,11 @@ namespace Mart.Controllers
             }
             base.Dispose(disposing);
         }
-
-        [Route("IsShopExists")]
-        private bool ShopDetailExists(string id)
+        [Route("IsCustomerExists")]
+        private bool CustomerExists(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            return db.ShopDetails.Count(e => e.Shop_Id == id) > 0;
+            return db.Customers.Count(e => e.CustomerId == id) > 0;
         }
     }
 }

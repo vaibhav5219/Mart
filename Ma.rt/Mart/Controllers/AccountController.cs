@@ -322,7 +322,7 @@ namespace Mart.Controllers
         // POST api/Account/Register  => for role -:   IsACustomer
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(CustomerAccountViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -330,10 +330,10 @@ namespace Mart.Controllers
             }
             
             //  creating ApplicationUser object
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.RegisterBindingModel.Email, Email = model.RegisterBindingModel.Email };
 
             //  creating ApplicationUser Instance and adding to database ie. creating registration
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user, model.RegisterBindingModel.Password);
 
             if (!result.Succeeded)
             {
@@ -347,7 +347,32 @@ namespace Mart.Controllers
             //await roleManager.CreateAsync(new IdentityRole("IsACustomer"));   //  create a role in db for IsACustomer
             //await roleManager.CreateAsync(new IdentityRole("IsAShop"));       //  create a role in db for IsAShop
             
-            await UserManager.AddToRoleAsync(user.Id, "IsACustomer");     //  Assign role to the user as IsACustomer
+            //await UserManager.AddToRoleAsync(user.Id, "IsACustomer");     //  Assign role to the user as IsACustomer
+
+            // Adding customer details
+            try
+            {
+                using (cartDBEntitiesConn cartDBEntitiesConn = new cartDBEntitiesConn())
+                {
+                    Customer customer = new Customer()
+                    {
+                        CustomerName = model.Customer.CustomerName,
+                        Email = model.Customer.Email,
+                        UserName = model.Customer.UserName,
+                        Address = model.Customer.Address,
+                        Mobile = model.Customer.Mobile,
+                        AspNetUserId = user.Id
+                    };
+                    cartDBEntitiesConn.Customers.Add(customer);
+                    cartDBEntitiesConn.SaveChanges();
+                }
+
+                await UserManager.AddToRoleAsync(user.Id, "IsACustomer");     //  Assign role to the user as IsACustomer
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
 
             return Ok();
         }
@@ -368,7 +393,7 @@ namespace Mart.Controllers
             //  creating ApplicationUser Instance and adding to database ie. creating registration
             IdentityResult result = await UserManager.CreateAsync(user, registerBindingModel.Password);
 
-            await UserManager.AddToRoleAsync(user.Id, "IsAShop");
+            //await UserManager.AddToRoleAsync(user.Id, "IsAShop");
 
             if (!result.Succeeded)
             {

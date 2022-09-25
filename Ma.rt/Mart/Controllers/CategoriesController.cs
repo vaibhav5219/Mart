@@ -23,11 +23,12 @@ namespace Mart.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        [Route("/GetCategories")]
+        [Route("GetCategories")]
         public IQueryable<Category> GetCategories()
         {
 
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
             
             return db.Categories.Where(u => u.Shop_Code == shopDetail.Shop_Code);
@@ -35,11 +36,12 @@ namespace Mart.Controllers
 
         // GET: api/Categories/5
         [HttpGet]
-        [Route("/GetCategories/{id}")]
+        [Route("GetCategories/{id:int}")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> GetCategory(int id)
         {
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             Category category = await db.Categories.SingleAsync(u => u.Shop_Code == shopDetail.Shop_Code && u.CategoryID==id);
@@ -53,7 +55,7 @@ namespace Mart.Controllers
 
         // PUT: api/Categories/5
         [HttpPut]
-        [Route("/EditCategories/{id}")]
+        [Route("EditCategories/{id:int}")]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCategory(int id, Category category)
         {
@@ -62,6 +64,7 @@ namespace Mart.Controllers
                 return BadRequest(ModelState);
             }
             string userId = User.Identity.GetUserId();
+            db.Configuration.ProxyCreationEnabled = false;
             ShopDetail shopDetail = db.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
 
             if (id != category.CategoryID || shopDetail.Shop_Code != category.Shop_Code)
@@ -91,6 +94,7 @@ namespace Mart.Controllers
         }
 
         // POST: api/Categories
+        [Route("SetCategory")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> PostCategory(SetCategoryModel categoryModel)
         {
@@ -108,6 +112,7 @@ namespace Mart.Controllers
                 {
                     //enteties.Configuration.ProxyCreationEnabled = false;
                     string userId = User.Identity.GetUserId();
+                    db.Configuration.ProxyCreationEnabled = false;
                     ShopDetail shopDetail = enteties.ShopDetails.FirstOrDefault(u => u.AspNetUsersId == userId);
                     
                     Category category = new Category()
@@ -131,9 +136,11 @@ namespace Mart.Controllers
         }
 
         // DELETE: api/Categories/5
+        [Route("RemoveCategory/{id:int}")]
         [ResponseType(typeof(Category))]
         public async Task<IHttpActionResult> DeleteCategory(int id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             Category category = await db.Categories.FindAsync(id);
 
             string userId = User.Identity.GetUserId();
@@ -159,8 +166,10 @@ namespace Mart.Controllers
             base.Dispose(disposing);
         }
 
+        [Route("IsCategoryExists")]
         private bool CategoryExists(int id)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             return db.Categories.Count(e => e.CategoryID == id) > 0;
         }
     }
