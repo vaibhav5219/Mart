@@ -116,10 +116,12 @@ namespace Mart.Controllers
             //   Order_Status = 4 => Delivered
             //   Order_Status = 5 => Cancled
 
+            List<OrderStatus_tbl> orderStatus_Tbl = db.OrderStatus_tbl.ToList();
+
             Order order1 = new Order()
             {
                 Order_Date = DateTime.Now,
-                Order_Status = 1,            //    Order Placed
+                Order_Status = orderStatus_Tbl[0].OrderStatus_Id,     //    Order Placed => 1
                 Order_Total = order.Order_Total,
                 Customer_Id = customer.AspNetUserId,
                 Product_Id = order.Product_Id,
@@ -146,7 +148,9 @@ namespace Mart.Controllers
             {
                 return NotFound();
             }
-            order.Order_Status = 5;
+            List<OrderStatus_tbl> orderStatus_Tbl = db.OrderStatus_tbl.ToList();
+
+            order.Order_Status = orderStatus_Tbl[4].OrderStatus_Id;
 
             //db.Orders.Remove(order);
             await db.SaveChangesAsync();
@@ -212,8 +216,11 @@ namespace Mart.Controllers
             {
                 return NotFound();
             }
+
+            List<OrderStatus_tbl> orderStatus_Tbl = db.OrderStatus_tbl.ToList();
+
             order.Delivered_Date = DateTime.Now;
-            order.Order_Status = 4;    // Order Delivered
+            order.Order_Status = orderStatus_Tbl[3].OrderStatus_Id;    // Order Delivered  => 4
 
             //db.Orders.Remove(order);
             await db.SaveChangesAsync();
