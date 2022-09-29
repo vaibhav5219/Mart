@@ -19,7 +19,7 @@ namespace EF.mart
         public string ShopName { get; set; }
         public string ShopKeeperName { get; set; }
         public string Mobile { get; set; }
-        public string Address { get; set; }
+        public int Address { get; set; }
         public string Shop_Domain_Name { get; set; }
         public string Pin_Code { get; set; }
         public string AspNetUsersId { get; set; }

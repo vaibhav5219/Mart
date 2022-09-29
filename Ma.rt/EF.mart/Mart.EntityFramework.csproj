@@ -92,6 +92,9 @@
     <Compile Include="Order.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrderStatus_tbl.cs">
+      <DependentUpon>MtModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>MtModel.tt</DependentUpon>
     </Compile>

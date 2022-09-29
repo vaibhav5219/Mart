@@ -143,7 +143,7 @@
           <Property Name="ShopName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ShopKeeperName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Mobile" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="int" Nullable="false" />
           <Property Name="Shop_Domain_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pin_Code" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -324,13 +324,16 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Addresses" EntityType="cartDBModel.Address" />
           <EntitySet Name="AspNetRoles" EntityType="cartDBModel.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="cartDBModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="cartDBModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="cartDBModel.AspNetUser" />
           <EntitySet Name="CartItems" EntityType="cartDBModel.CartItem" />
           <EntitySet Name="Categories" EntityType="cartDBModel.Category" />
+          <EntitySet Name="Customers" EntityType="cartDBModel.Customer" />
           <EntitySet Name="Orders" EntityType="cartDBModel.Order" />
+          <EntitySet Name="OrderStatus_tbl" EntityType="cartDBModel.OrderStatus_tbl" />
           <EntitySet Name="Products" EntityType="cartDBModel.Product" />
           <EntitySet Name="ShopDetails" EntityType="cartDBModel.ShopDetail" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="cartDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -341,25 +344,22 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
           </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Products" Association="cartDBModel.FK_CartItems_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="CartItem" EntitySet="CartItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_Products_Categories" Association="cartDBModel.FK_Products_Categories">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Product_ID" Association="cartDBModel.FK_Order_Product_ID">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="cartDBModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_CartItems_Products" Association="cartDBModel.FK_CartItems_Products">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="CartItem" EntitySet="CartItems" />
-          </AssociationSet>
-          <EntitySet Name="Customers" EntityType="cartDBModel.Customer" />
-          <EntitySet Name="Addresses" EntityType="cartDBModel.Address" />
-          <AssociationSet Name="FK_Order_Product_ID" Association="cartDBModel.FK_Order_Product_ID">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <EntitySet Name="OrderStatus_tbl" EntityType="cartDBModel.OrderStatus_tbl" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -372,6 +372,19 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StreetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Postal_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -425,11 +438,11 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Key>
             <PropertyRef Name="Cart_Id" />
           </Key>
+          <Property Name="Cart_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Cart_Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Item_Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="cartDBModel.FK_CartItems_Products" FromRole="CartItem" ToRole="Product" />
         </EntityType>
@@ -443,6 +456,18 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="cartDBModel.FK_Products_Categories" FromRole="Category" ToRole="Product" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="Int32" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Order_Id" />
@@ -455,8 +480,15 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
           <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Product_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="cartDBModel.FK_Order_Product_ID" FromRole="Order" ToRole="Product" />
           <Property Name="Order_Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="cartDBModel.FK_Order_Product_ID" FromRole="Order" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="OrderStatus_tbl">
+          <Key>
+            <PropertyRef Name="OrderStatus_Id" />
+          </Key>
+          <Property Name="OrderStatus_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -469,8 +501,8 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="UnitPrice" Type="Double" />
           <Property Name="CategoryID" Type="Int32" />
           <Property Name="Shop_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="CartItems" Relationship="cartDBModel.FK_CartItems_Products" FromRole="Product" ToRole="CartItem" />
+          <NavigationProperty Name="Category" Relationship="cartDBModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Orders" Relationship="cartDBModel.FK_Order_Product_ID" FromRole="Product" ToRole="Order" />
         </EntityType>
         <EntityType Name="ShopDetail">
@@ -482,7 +514,7 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
           <Property Name="ShopName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ShopKeeperName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="Int32" Nullable="false" />
           <Property Name="Shop_Domain_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Pin_Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="AspNetUsersId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -515,22 +547,6 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Products_Categories">
-          <End Type="cartDBModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-          <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
         <Association Name="FK_CartItems_Products">
           <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
           <End Type="cartDBModel.CartItem" Role="CartItem" Multiplicity="*" />
@@ -543,31 +559,18 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="CustomerId" />
-          </Key>
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="Int32" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Address">
-          <Key>
-            <PropertyRef Name="AddressId" />
-          </Key>
-          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StreetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Shop_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Postal_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="FK_Products_Categories">
+          <End Type="cartDBModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="cartDBModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_Product_ID">
           <End Type="cartDBModel.Product" Role="Product" Multiplicity="1" />
           <End Type="cartDBModel.Order" Role="Order" Multiplicity="*" />
@@ -580,19 +583,30 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OrderStatus_tbl">
-          <Key>
-            <PropertyRef Name="OrderStatus_Id" />
-          </Key>
-          <Property Name="OrderStatus_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Type="cartDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="cartDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="cartDBModelStoreContainer" CdmEntityContainer="cartDBEntitiesConn">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="cartDBModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Postal_Code" ColumnName="Postal_Code" />
+                <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
+                <ScalarProperty Name="CustomerUserName" ColumnName="CustomerUserName" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="cartDBModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -642,12 +656,12 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
             <EntityTypeMapping TypeName="cartDBModel.CartItem">
               <MappingFragment StoreEntitySet="CartItems">
                 <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
-                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
-                <ScalarProperty Name="Cart_Id" ColumnName="Cart_Id" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                </MappingFragment>
+                <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+                <ScalarProperty Name="Cart_Id" ColumnName="Cart_Id" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
@@ -657,6 +671,19 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="cartDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -672,6 +699,14 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
                 <ScalarProperty Name="Order_Total" ColumnName="Order_Total" />
                 <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
                 <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderStatus_tbl">
+            <EntityTypeMapping TypeName="cartDBModel.OrderStatus_tbl">
+              <MappingFragment StoreEntitySet="OrderStatus_tbl">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="OrderStatus_Id" ColumnName="OrderStatus_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -711,41 +746,6 @@ warning 6035: The relationship 'FK_Products_ShopDetails' has columns that are no
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="cartDBModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Addresses">
-            <EntityTypeMapping TypeName="cartDBModel.Address">
-              <MappingFragment StoreEntitySet="Address">
-                <ScalarProperty Name="Postal_Code" ColumnName="Postal_Code" />
-                <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
-                <ScalarProperty Name="CustomerUserName" ColumnName="CustomerUserName" />
-                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderStatus_tbl">
-            <EntityTypeMapping TypeName="cartDBModel.OrderStatus_tbl">
-              <MappingFragment StoreEntitySet="OrderStatus_tbl">
-                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-                <ScalarProperty Name="OrderStatus_Id" ColumnName="OrderStatus_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
