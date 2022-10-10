@@ -1,0 +1,12 @@
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EF.mart.dll.config
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EF.mart.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EF.mart.pdb
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EntityFramework.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EntityFramework.xml
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Release\Mart.EntityFramework.csproj.AssemblyReference.cache
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Release\Mart.EntityFramework.csproj.CoreCompileInputs.cache
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Release\Mart.EntityFramework.csproj.CopyComplete
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Release\EF.mart.dll
+C:\Users\hp\OneDrive\Documents\GitHub\Ma.rt\Ma.rt\EF.mart\obj\Release\EF.mart.pdb

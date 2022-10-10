@@ -20,7 +20,7 @@ namespace Mart.Models
         [Required]
         public string Mobile { get; set; }
         [Required]
-        public string Address { get; set; }
+        public int Address { get; set; }
         [Required]
         public string Shop_Domain_Name { get; set; }
         [Required]
